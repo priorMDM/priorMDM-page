@@ -172,26 +172,29 @@
                 <h2 class="title is-3">Abstract</h2>
                 <div class="content has-text-justified">
                     <p>
-
-                        Synthesizing realistic animations of humans, animals, and even imaginary
-                        creatures has long been a goal for artists and computer graphics professionals.
-                        Compared to the imaging domain, which is rich with large available
-                        datasets, the number of data instances for the motion domain is limited,
-                        particularly for the animation of animals and exotic creatures (e.g., dragons),
-                        which have unique skeletons and motion patterns. In this work, we present
-                        a Single Motion Diffusion Model, dubbed SinMDM, a model designed to
-                        learn the internal motifs of a single motion sequence with arbitrary topology
-                        and synthesize motions of arbitrary length that are faithful to them. We
-                        harness the power of diffusion models and present a denoising network
-                        designed specifically for the task of learning from a single input motion. Our
-                        transformer-based architecture avoids overfitting by using local attention
-                        layers that narrow the receptive field, and encourages motion diversity by
-                        using relative positional embedding. SinMDM can be applied in a variety of
-                        contexts, including spatial and temporal in-betweening, motion expansion,
-                        style transfer, and crowd animation. Our results show that SinMDM outperforms
-                        existing methods both in quality and time-space efficiency. Moreover,
-                        while current approaches require additional training for different applications,
-                        our work facilitates these applications at inference time.
+In recent months, we witness a leap forward as denoising diffusion models were introduced to Motion Generation.
+Yet, the main gap in this field remains the low availability of data. Furthermore, the expensive acquisition process of motion biases the already modest data 
+towards short single-person sequences. With such a shortage, more elaborate generative tasks are left behind.
+<br>
+In this paper, we show that this gap can be mitigated using a pre-trained diffusion-based model as a generative prior.
+We demonstrate the prior is effective for fine-tuning, in a few-, and even a zero-shot manner.
+For the zero-shot setting, we tackle the challenge of long sequence generation. We introduce  DoubleTake, an inference-time method with which 
+we demonstrate up to 10-minutes long animations of prompted intervals and their meaningful and controlled transition, using the prior that was trained for 
+10-seconds generation.
+ <br>
+For the few-shot setting, we consider two-person generation. 
+Using two fixed priors and as few as a dozen training examples, we learn a slim communication block, ComMDM, 
+to infuse interaction between the two resulting motions. 
+<br>
+Finally, using fine-tuning, we train the prior to semantically complete motions from a single prescribed joint. 
+Then, we use our DiffusionBlending to blend a few such models into a single one that responds well to the combination of the individual control signals, 
+enabling fine-grained joint- and trajectory-level control and editing.
+<br>
+Using an off-the-shelf state-of-the-art (SOTA) motion diffusion model as a prior, 
+we evaluate our approach for the three mentioned cases. 
+Compared to SOTA methods, the DoubleTake approach demonstrates better quality scores for the intervals themselves and significantly better scores 
+for the transitions between them. Through a user study, we show our communication block scores better quality and interaction levels compared to a 
+SOTA model dedicated to the multi-person task. Our DiffusionBlending outperforms the motion inpainting approach over four different combinations of joints.
                     </p>
                 </div>
 
