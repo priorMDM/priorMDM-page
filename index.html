@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+
+
+  <title>Human Motion Diffusion as a Generative Prior</title>
+  <!-- Google tag (gtag.js) -->
+<!-- 
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-EWRYSDM25P');
+</script>
+ -->
+  
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+  <link rel="icon" href="static/figures/icon2.png">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+
+<body>
+
+
+<section class="publication-header">
+  <div class="hero-body">
+    <div class="container is-max-widescreen">
+      <!-- <div class="columns is-centered"> -->
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Human Motion Diffusion as a Generative Prior</h1>
+          <div class="is-size-3 publication-authors">
+            <span class="eql-cntrb"><small>Anonymous Authors</small></span>
+          </div>
+        </div>
+    </div>
+  </div>
+  
+<section class="publication-author-block">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+<!-- 
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><a href="https://www.semanticscholar.org/author/Guy-Tevet/81493694" target="_blank">Guy Tevet</a>,</span>
+                        <span class="author-block"><a href="https://scholar.google.com/citations?hl=iw&user=STnhSioAAAAJ&view_op=list_works&sortby=pubdate" target="_blank">Sigal Raab</a>,</span>
+            <span class="author-block"><a href="https://scholar.google.com/citations?user=VNDhTycAAAAJ&amp;hl=en" target="_blank">Brian Gordon</a>,</span>
+            <span class="author-block"><a href="https://www.linkedin.com/in/yonatan-shafir-2811a3148/" target="_blank">Yonatan Shafir</a>,</span>
+            <span class="author-block"><a href="https://danielcohenor.com/" target="_blank">Daniel Cohen-Or</a></span>,</span>
+            <span class="author-block"><a href="https://www.cs.tau.ac.il/~amberman/" target="_blank">Amit H. Bermano</a>
+
+            
+            
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Tel Aviv University, Israel</span> 
+            <!~~ <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution</small></span> ~~>
+          </div>
+ -->
+          
+
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="" target="_blank"
+                  class="external-link button is-normal is-rounded">
+                  <span class="icon">
+                    <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+
+              
+              <!-- PDF Link. -->
+<!--              <span class="link-block">-->
+<!--                <a href="static/source/MotionCLIP.pdf" target="_blank"-->
+<!--                  class="external-link button is-normal is-rounded">-->
+<!--                  <span class="icon">-->
+<!--                    <i class="fas fa-file-pdf"></i>-->
+<!--                  </span>-->
+<!--                  <span>Paper</span>-->
+<!--                </a>-->
+<!--              </span>-->
+<!--                            </span>-->
+              <!-- </span> -->
+              <!-- Colab Link. -->
+              <span class="link-block">
+                <a href="https://github.com/priorMDM/priorMDM" target="_blank"
+                class="external-link button is-normal is-rounded">
+                <span class="icon">
+                  <i class="fab fa-github"></i>
+                </span>
+                <span>Code</span>
+              </a>
+
+              </span>
+<!-- 
+
+              <span class="link-block">
+                <a href="https://replicate.com/arielreplicate/motion_diffusion_model" target="_blank"
+                class="external-link button is-normal is-rounded">
+                <span class="icon">
+                  <i class="fas fa-rocket"></i>
+                </span>
+                <span>Demo</span>
+              </a>
+
+              </span>
+ -->
+              <!-- </span> -->
+              <!-- Colab Link. -->
+            </div>
+          </div>
+          
+        <div class="container is-max-desktop">
+      		<div class="column is-centered has-text-centered">
+         		<video poster="" id="tree" playsinline autoplay muted loop height="80%">
+          		<source src="static/figures/hello.mp4"
+          		type="video/mp4">
+        		</video>
+      		</div>
+      		<p>Our DiffusionBlending approach enables fine-grained control over human motion (see more details below).</p>
+		</div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</section>
+
+
+<section class="section hero is-light">
+    <div class="container is-max-desktop">
+        <!-- Abstract. -->
+        <div class="columns is-centered has-text-centered">
+            <div class="column is-four-fifths">
+<!-- 
+                <div class="item">
+                    <p style="margin-bottom: 30px">
+                        <iframe width="720" height="405" src="https://www.youtube.com/embed/dU9WR8rWAJI"
+                                title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                    </p>
+                </div>
+ -->
+                <h2 class="title is-3">Abstract</h2>
+                <div class="content has-text-justified">
+                    <p>
+
+                        Synthesizing realistic animations of humans, animals, and even imaginary
+                        creatures has long been a goal for artists and computer graphics professionals.
+                        Compared to the imaging domain, which is rich with large available
+                        datasets, the number of data instances for the motion domain is limited,
+                        particularly for the animation of animals and exotic creatures (e.g., dragons),
+                        which have unique skeletons and motion patterns. In this work, we present
+                        a Single Motion Diffusion Model, dubbed SinMDM, a model designed to
+                        learn the internal motifs of a single motion sequence with arbitrary topology
+                        and synthesize motions of arbitrary length that are faithful to them. We
+                        harness the power of diffusion models and present a denoising network
+                        designed specifically for the task of learning from a single input motion. Our
+                        transformer-based architecture avoids overfitting by using local attention
+                        layers that narrow the receptive field, and encourages motion diversity by
+                        using relative positional embedding. SinMDM can be applied in a variety of
+                        contexts, including spatial and temporal in-betweening, motion expansion,
+                        style transfer, and crowd animation. Our results show that SinMDM outperforms
+                        existing methods both in quality and time-space efficiency. Moreover,
+                        while current approaches require additional training for different applications,
+                        our work facilitates these applications at inference time.
+                    </p>
+                </div>
+
+                <div class="column is-centered has-text-centered">
+
+
+                </div>
+            </div>
+        </div>
+        <!--/ Abstract. -->
+    </div>
+</section>
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+        <div class="item">
+    <h2 class="title is-3">DoubleTake algorithm - Long motions</h2>
+
+
+      <div class="column is-centered has-text-centered">
+        <img src="static/figures/double_take.png" alt="DoubleTake" width="720"/>
+      </div>
+      
+          </div>
+    </div>
+     
+    
+  </div>
+</div>
+</div>
+</section>
+
+
+
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="item">
+        
+        <div class="content has-text-justified">
+          <p>
+          Our DoubleTake method (above) enables the efficient generation of long motion sequences in a zero-shot manner. Using it, 
+          we demonstrate 10-minute long fluent motions that were generated using a model that was trained only on ~10 seconds long sequences.
+          In addition, instead of a global textual condition, 
+		DoubleTake controls each motion interval using a different text condition while maintaining realistic transitions between intervals. 
+		This result is fairly surprising considering that such transitions were not explicitly annotated in the training data.
+		DoubleTake consists of two phases - in the first step, each motion is generated conditioned on a text prompt while being aware of the context of neighboring motions, 
+		all generated simultaneously in a single batch. 
+		Then, the second take exploits the denoising process to refine transitions to better match the intervals.
+		<br><br>
+		The following long motion was generated with DoubleTake in a single diffusion batch. Orange frames are the textually controlled interval, and the blue/purple frames are the transitions between them.
+          </p>
+          </div>
+          
+        </div>
+	  </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+<section class="hero is-small">
+      <div class="column is-centered has-text-centered">
+                <video poster="" id="tree" autoplay controls muted loop height="100%">
+          <source src="static/figures/long2.mp4"
+          type="video/mp4">
+        </video>
+      </div>
+</section>
+
+
+
+
+
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+<!--         <h2 class="title is-3">How does it work?</h2> -->
+        <div class="item">
+         <h2 class="title is-3">DoubleTake - Results</h2>
+          <p>
+			Lighter frames represent transition between intervals.
+          </p>
+      </div>
+    </div>
+  </div>
+</section> 
+
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+      <div class="column is-centered has-text-centered">
+                <video poster="" id="tree" autoplay controls muted loop height="100%">
+          <source src="static/figures/doubletake1.mp4"
+          type="video/mp4">
+        </video>
+      </div>
+      <div class="column is-centered has-text-centered">
+                <video poster="" id="tree" autoplay controls muted height="100%">
+          <source src="static/figures/doubletake2.mp4"
+          type="video/mp4">
+      </div>
+            <div class="column is-centered has-text-centered">
+                <video poster="" id="tree" autoplay controls muted height="100%">
+          <source src="static/figures/doubletake3.mp4"
+          type="video/mp4">
+      </div>
+  </div>
+</div>
+</div>
+</section>
+
+
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+<!--         <h2 class="title is-3">How does it work?</h2> -->
+        <div class="item">
+         <h2 class="title is-3">DoubleTake vs. TEACH model</h2>
+         <div class="content has-text-justified">
+          <p>
+          The followings are side-by-side views of our DoubleTake approach compared to TEACH[Athanasiou et al. 2022] that was dedicatedly learned for this task. Both got the same texts and sequence lengths to be generated.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> 
+
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+      <div class="column is-centered has-text-centered">
+                <video poster="" id="tree" autoplay controls muted loop width="720">
+          <source src="static/figures/teach1.mp4"
+          type="video/mp4">
+        </video>
+      </div>
+      <div class="column is-centered has-text-centered">
+                <video poster="" id="tree" autoplay controls muted loop width="720">
+          <source src="static/figures/teach2.mp4"
+          type="video/mp4">
+      </div>
+  </div>
+</div>
+</div>
+</section>
+
+
+
+
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="item">
+        <h2 class="title is-3">ComMDM - Two-person motion generation</h2>
+        <div class="content has-text-justified">
+          <p>
+          For the few-shot setting, we enable textually driven two-person motion generation for the first time. 
+          We exploit MDM as a motion prior for learning two-person motion generation using only as few as a dozen training examples. 
+          We observe that in order to learn human interactions, we only need to enable fixed prior models to communicate with each other through the diffusion process. Hence, we learn a slim communication block, ComMDM, 
+          that passes a communication signal between the two frozen priors through the transformer's intermediate activation maps. 
+          </div>
+          
+        </div>
+	  </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+
+      <div class="column is-centered has-text-centered">
+        <img src="static/figures/ComMDM.png" alt="ComMDM" width="720"/>
+      </div>
+     
+    
+  </div>
+</div>
+</div>
+</section>
+
+
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Two-person - Text-to-Motion Generation</h2>
+        <div class="content has-text-justified">
+          <p>
+          The followings are text-to-motion generations by our ComMDM model, learned with onlu 14 motion examples. The texts are unseen by the model but the interactions are fairly limited to those seen during training.
+          Different color defines different character, both are generated simultaneously.
+          </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> 
+
+
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+      
+      
+		<div class="column is-centered has-text-centered">
+		<p>“A Capoeira practice. One is kicking and the other is avoiding the kick.”</p>
+                <video poster="" id="tree" autoplay controls muted loop width="720">
+          <source src="static/figures/two_person_text/capoira1.mp4"
+          type="video/mp4">
+        </video>
+      </div>
+            <div class="column is-centered has-text-centered">
+            		<p>“A Capoeira practice. One is kicking and the other is avoiding the kick.”</p>
+                <video poster="" id="tree" autoplay controls muted loop width="720">
+          <source src="static/figures/two_person_text/capoira2.mp4"
+          type="video/mp4">
+        </video>
+      </div>   
+      
+      <div class="column is-centered has-text-centered">
+      		<p>“The two people are playing basketball, one with the ball the other is defending.”</p>
+                <video poster="" id="tree" autoplay controls muted loop width="720">
+          <source src="static/figures/two_person_text/basketball1.mp4"
+          type="video/mp4">
+        </video>
+      </div>
+      <div class="column is-centered has-text-centered">
+      <p>“The two people are playing basketball, one with the ball the other is defending.”</p>
+                <video poster="" id="tree" autoplay controls muted loop width="720">
+          <source src="static/figures/two_person_text/basketball2.mp4"
+          type="video/mp4">
+        </video>
+      </div>
+
+
+
+  </div>
+</div>
+</div>
+</section>
+
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Two-person - Prefix Completions</h2>
+        <div class="content has-text-justified">
+          <p>
+          The followings are side-by-side views of our ComMDM approach compared to MRT[Wang et al. 2021] that was dedicatedly learned for this task. Both got the same motion prefixes to be competed.
+          </p>
+          <p>
+          Blue is input prefix and orange/red is the generated completions by each model.
+          </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> 
+
+
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+      <div class="column is-centered has-text-centered">
+                <video poster="" id="tree" autoplay controls muted loop height="100%">
+          <source src="static/figures/mrt2.mp4"
+          type="video/mp4">
+        </video>
+      </div>
+      <div class="column is-centered has-text-centered">
+                <video poster="" id="tree" autoplay controls muted loop height="100%">
+          <source src="static/figures/mrt1.mp4"
+          type="video/mp4">
+        </video>
+      </div>
+      </div>
+  </div>
+</div>
+</div>
+</section>
+
+
+
+
+
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Fine-Tuned Motion Control</h2>
+        <div class="content has-text-justified">
+          <p>
+          We observe that the motion inpainting process suggested by MDM[Tevet et al. 2022] does not extend well to more elaborate yet important motion tasks such as trajectory and end-effector tracking. 
+          We show that fine-tuning the prior for this task yields semantic and accurate control using even just a single end-effector. 
+          We further introduce the DiffusionBlending technique that generalizes classifier-free guidance to blend between different fine-tuned models and create any cross combination of keypoints control on the generated motion. 
+          This enables surgical control for human motion that comprises a key capability for any animation system.
+          <br><br>
+			The followings are side-by-side comparison of our fine-tuned MDM and DiffusionBlending (models with + sign) to MDM motion inpainting.
+          </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section> 
+
+
+
+
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+      <div class="column is-centered has-text-centered">
+      <h2 class="title is-3">Trajectory Control</h2>
+                <video poster="" id="tree" autoplay controls muted loop height="100%">
+          <source src="static/figures/control/traj1.mp4"
+          type="video/mp4">
+        </video>
+      </div>
+      <div class="column is-centered has-text-centered">
+      <h2 class="title is-3">Trajectory Control</h2>
+                <video poster="" id="tree" autoplay controls muted loop height="100%">
+          <source src="static/figures/control/traj2.mp4"
+          type="video/mp4">
+        </video>
+      </div>
+
+            
+</div>
+</div>
+</section>
+
+
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+      <div class="column is-centered has-text-centered">
+      <h2 class="title is-3">Left Hand Control</h2>
+                <video poster="" id="tree" autoplay controls muted loop height="100%">
+          <source src="static/figures/control/hand1.mp4"
+          type="video/mp4">
+        </video>
+      </div>
+      <div class="column is-centered has-text-centered">
+      <h2 class="title is-3">Left Hand Control</h2>
+                <video poster="" id="tree" autoplay controls muted loop height="100%">
+          <source src="static/figures/control/hand2.mp4"
+          type="video/mp4">
+        </video>
+      </div>
+            
+</div>
+</div>
+</section>
+
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+      <div class="column is-centered has-text-centered">
+      <h2 class="title is-3">Trajectory + Left Hand Control (DiffusionBlending)</h2>
+                <video poster="" id="tree" autoplay controls muted loop height="100%">
+          <source src="static/figures/control/traj_left1.mp4"
+          type="video/mp4">
+        </video>
+      </div>
+      <div class="column is-centered has-text-centered">
+      <h2 class="title is-3">Trajectory + Left Hand Control (DiffusionBlending)</h2>
+                <video poster="" id="tree" autoplay controls muted loop height="100%">
+          <source src="static/figures/control/traj_left2.mp4"
+          type="video/mp4">
+        </video>
+      </div>
+            
+</div>
+</div>
+</section>
+
+
+
+<footer class="footer">
+ <!--  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+      href="https://homes.cs.washington.edu/~kpar/nerfies/videos/nerfies_paper.pdf">
+      <i class="fas fa-file-pdf"></i>
+    </a>
+    <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+      <i class="fab fa-github"></i>
+    </a>
+  </div> -->
+  <div class="columns is-centered">
+    <div class="column is-8">
+      <div class="content">
+        <p>
+          This website is licensed under a <a rel="license"
+          href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+        Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+      <p>
+        Website source code based on the <a href="https://nerfies.github.io/"> Nerfies</a> project page. If you want to reuse their <a
+        href="https://github.com/nerfies/nerfies.github.io">source code</a>, please credit them appropriately.
+      </p>
+    </div>
+  </div>
+</div>
+</div>
+</footer>
+
+
+  <script type="text/javascript">
+    var sc_project=12351448; 
+    var sc_invisible=1; 
+    var sc_security="c676de4f"; 
+  </script>
+  <script type="text/javascript"
+  src="https://www.statcounter.com/counter/counter.js"
+  async></script>
+  <noscript><div class="statcounter"><a title="Web Analytics"
+    href="https://statcounter.com/" target="_blank"><img
+    class="statcounter"
+    src="https://c.statcounter.com/12351448/0/c676de4f/1/"
+    alt="Web Analytics"></a></div></noscript>
+    <!-- End of Statcounter Code -->
+
+  </body>
+  </html>
