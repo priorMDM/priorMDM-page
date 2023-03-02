@@ -179,8 +179,8 @@ towards short single-person sequences. With such a shortage, more elaborate gene
 In this paper, we show that this gap can be mitigated using a pre-trained diffusion-based model as a generative prior.
 We demonstrate the prior is effective for fine-tuning, in a few-, and even a zero-shot manner.
 For the zero-shot setting, we tackle the challenge of long sequence generation. We introduce  DoubleTake, an inference-time method with which 
-we demonstrate up to 10-minutes long animations of prompted intervals and their meaningful and controlled transition, using the prior that was trained for 
-10-seconds generation.
+we demonstrate up to 10-minute long animations of prompted intervals and their meaningful and controlled transition, using the prior that was trained for 
+10-second generations.
  <br>
 For the few-shot setting, we consider two-person generation. 
 Using two fixed priors and as few as a dozen training examples, we learn a slim communication block, ComMDM, 
@@ -241,7 +241,7 @@ SOTA model dedicated to the multi-person task. Our DiffusionBlending outperforms
         <div class="content has-text-justified">
           <p>
           Our DoubleTake method (above) enables the efficient generation of long motion sequences in a zero-shot manner. Using it, 
-          we demonstrate 10-minute long fluent motions that were generated using a model that was trained only on ~10 seconds long sequences.
+          we demonstrate 10-minute long fluent motions that were generated using a model that was trained only on ~10 second long sequences.
           In addition, instead of a global textual condition, 
 		DoubleTake controls each motion interval using a different text condition while maintaining realistic transitions between intervals. 
 		This result is fairly surprising considering that such transitions were not explicitly annotated in the training data.
@@ -403,7 +403,7 @@ SOTA model dedicated to the multi-person task. Our DiffusionBlending outperforms
         <h2 class="title is-3">Two-person - Text-to-Motion Generation</h2>
         <div class="content has-text-justified">
           <p>
-          The followings are text-to-motion generations by our ComMDM model, learned with onlu 14 motion examples. The texts are unseen by the model but the interactions are fairly limited to those seen during training.
+          The followings are text-to-motion generations by our ComMDM model, learned with only 14 motion examples. The texts are unseen by the model but the interactions are fairly limited to those seen during training.
           Different color defines different character, both are generated simultaneously.
           </p>
           </div>
